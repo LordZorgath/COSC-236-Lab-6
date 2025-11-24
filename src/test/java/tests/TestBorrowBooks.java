@@ -16,6 +16,8 @@ class TestBorrowBooks {
 	
 	Book book1 = new PaperBook("Dune");
 	Book book2 = new PaperBook("1984");
+    Book ebook1 = new EBook("Dune");
+    Book ebook2 = new EBook("1984");
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -23,9 +25,11 @@ class TestBorrowBooks {
 		member2 = new Member("Bob");   // flush borrowedBook array 
 		book1.setIsAvailable(true);
 		book2.setIsAvailable(true);
+        ebook1.setIsAvailable(true);
+        ebook2.setIsAvailable(true);
 	}
 	@Test
-	void borrowBookBook() {
+	void borrowPaperBook() {
 		
 		// borrow first book
 		assertEquals(0, member1.borrowedBooksCount(), "Borrowed book should be zero");
@@ -42,7 +46,7 @@ class TestBorrowBooks {
 	}
 	
 	@Test
-	void returnBookBook() {
+	void returnPaperBook() {
 		
 		// borrow two books
 		assertTrue(book1.getIsAvailable(), "Book 1 should be available");
@@ -64,5 +68,47 @@ class TestBorrowBooks {
 		assertEquals(0, member1.borrowedBooksCount(), "Member 1 should have no books");
 		
 	}
+
+
+    @Test
+    void borrowEBook() {
+
+        // borrow first book
+        assertEquals(0, member1.borrowedBooksCount(), "Borrowed book should be zero");
+        assertTrue(ebook1.getIsAvailable(), "Book 1 must be available");
+        member1.borrowBook(ebook1);
+        assertFalse(ebook1.getIsAvailable(),"Book 1 must be not available");
+        assertEquals(1, member1.borrowedBooksCount(), "Count of borrowed books must be 1");
+
+        // borrow second book
+        assertTrue(ebook2.getIsAvailable(),"Book must be available");
+        member1.borrowBook(ebook2);
+        assertFalse(ebook1.getIsAvailable(), "Book should not be available");
+        assertEquals(2, member1.borrowedBooksCount(), "The book coubnt shoud be 2");
+    }
+
+    @Test
+    void returnEBook() {
+
+        // borrow two books
+        assertTrue(ebook1.getIsAvailable(), "Book 1 should be available");
+        assertTrue(ebook2.getIsAvailable(), "Book 2 should be available");
+        assertEquals(0, member1.borrowedBooksCount(),"Member1 should not have any books" );
+        member1.borrowBook(ebook1);
+        member1.borrowBook(ebook2);
+        assertEquals(2, member1.borrowedBooksCount(), "The count of books must be 2");
+        assertFalse(ebook1.getIsAvailable(), "Book 1 should not be available");
+        assertFalse(ebook2.getIsAvailable(), "Book 2 should not be available");
+
+        // return first book
+        member1.returnBook(ebook1);
+        assertTrue(ebook1.getIsAvailable(), "Book should be available after return");
+        assertEquals(1, member1.borrowedBooksCount(), "Count of books must be 1");
+        // return second book
+        member1.returnBook(ebook2);
+        assertTrue(ebook2.getIsAvailable(), "Book should be available after return");
+        assertEquals(0, member1.borrowedBooksCount(), "Member 1 should have no books");
+
+    }
 
 }
