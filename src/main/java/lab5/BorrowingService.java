@@ -46,7 +46,7 @@ public class BorrowingService implements BorrowingServiceAPI {
         if (!member.hasBorrowed(book)) {
             return new BorrowingBookResult(false, "Book not found in member's borrowed list.");
         }
-        if (book.getIsAvailable()) {
+        if (book instanceof PaperBook && book.getIsAvailable()  || book instanceof AudioBook && book.getIsAvailable() ) {  // Only check for PaperBooks
             return new BorrowingBookResult(false, "Book has already been returned.");
         }
 

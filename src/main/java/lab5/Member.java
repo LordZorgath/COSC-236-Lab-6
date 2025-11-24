@@ -69,7 +69,8 @@ public class Member {
     }
 
     public void returnAllBooks() {
-        for (Book book : borrowedItems) {
+        ArrayList<Book> booksToReturn = new ArrayList<>(borrowedItems);
+        for (Book book : booksToReturn) {
             returnBook(book);
         }
         borrowedItems.clear();

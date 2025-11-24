@@ -13,15 +13,19 @@ class TestBorrowBooks {
 	Member member1;
 	Member member2;
 	
-	Book book1 = new PaperBook("Dune");
-	Book book2 = new PaperBook("1984");
-    Book ebook1 = new EBook("Dune");
-    Book ebook2 = new EBook("1984");
+	Book book1;
+	Book book2;
+    Book ebook1;
+    Book ebook2;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		member1 = new Member("Alice", BorrowingService.getInstance()); // flush borrowedBook array
 		member2 = new Member("Bob", BorrowingService.getInstance());   // flush borrowedBook array
+        book1 = new PaperBook("Dune");
+        book2 = new PaperBook("1984");
+        ebook1 = new EBook("Dune");
+        ebook2 = new EBook("1984");
 		book1.setIsAvailable(true);
 		book2.setIsAvailable(true);
         ebook1.setIsAvailable(true);
@@ -76,13 +80,13 @@ class TestBorrowBooks {
         assertEquals(0, member1.borrowedBooksCount(), "Borrowed book should be zero");
         assertTrue(ebook1.getIsAvailable(), "Book 1 must be available");
         member1.borrowBook(ebook1);
-        assertFalse(ebook1.getIsAvailable(),"Book 1 must be not available");
+        assertTrue(ebook1.getIsAvailable(),"Book 1 must be available");
         assertEquals(1, member1.borrowedBooksCount(), "Count of borrowed books must be 1");
 
         // borrow second book
         assertTrue(ebook2.getIsAvailable(),"Book must be available");
         member1.borrowBook(ebook2);
-        assertFalse(ebook1.getIsAvailable(), "Book should not be available");
+        assertTrue(ebook1.getIsAvailable(), "Book should be available");
         assertEquals(2, member1.borrowedBooksCount(), "The book coubnt shoud be 2");
     }
 
@@ -96,8 +100,8 @@ class TestBorrowBooks {
         member1.borrowBook(ebook1);
         member1.borrowBook(ebook2);
         assertEquals(2, member1.borrowedBooksCount(), "The count of books must be 2");
-        assertFalse(ebook1.getIsAvailable(), "Book 1 should not be available");
-        assertFalse(ebook2.getIsAvailable(), "Book 2 should not be available");
+        assertTrue(ebook1.getIsAvailable(), "Book 1 should be available");
+        assertTrue(ebook2.getIsAvailable(), "Book 2 should be available");
 
         // return first book
         member1.returnBook(ebook1);
