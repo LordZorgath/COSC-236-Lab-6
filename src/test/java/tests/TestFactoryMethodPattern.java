@@ -49,16 +49,16 @@ public class TestFactoryMethodPattern {
 
     @Test
     void createInstancesOfBooks(){
-        assertEquals(book, paperBookFactory.createBook('Dune'));
-        assertEquals(eBook, eBookFactory.createBook('Dune'););
-        assertEquals(audioBook, audioBookFactory.createBook('Dune'));
+        assertEquals(book, paperBookFactory.createBook("Dune"));
+        assertEquals(eBook, eBookFactory.createBook("Dune"));
+        assertEquals(audioBook, audioBookFactory.createBook("Dune"));
     }
 
     @Test
     void createInstancesOfUnsupportedBooks(){
-        assertNotEquals(audioBook, paperBookFactory.createBook('Dune'));
-        assertNotEquals(book, eBookFactory.createBook('Dune'));
-        assertNotEquals(book, audioBookFactory.createBook('Dune'));
+        assertNotEquals(audioBook, paperBookFactory.createBook("Dune"));
+        assertNotEquals(book, eBookFactory.createBook("Dune"));
+        assertNotEquals(book, audioBookFactory.createBook("Dune"));
     }
 
 }
